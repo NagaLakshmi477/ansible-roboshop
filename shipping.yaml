@@ -44,12 +44,25 @@
     src: shipping.service
     dest: /etc/systemd/system/shipping.service
 
-- name: reaload the catalogue service
+- name: reaload the shipping service
   ansible.builtin.systemd_service:
     daemon_reload: true 
 
-- name: start and enable the catalogue component
+- name: start and enable the shipping component
   ansible.builtin.service:
-      name: catalogue
+      name: shipping
       state: started
       enable: yes
+
+- name: install mysql client
+  ansible.builtin.dnf:
+    name: mysql 
+    state: present
+
+# check you can connect to mysql using app user or not
+# 
+- name: connect to mysql using app user
+  community.mysql.mysql_info:
+    login_user: shipping
+    login_password: RoboShop@1
+    login_host: mysql.lakshmireddy.site
