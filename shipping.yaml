@@ -61,8 +61,39 @@
 
 # check you can connect to mysql using app user or not
 # 
-- name: connect to mysql using app user
-  community.mysql.mysql_info:
-    login_user: shipping
+# - name: connect to mysql using app user
+#   community.mysql.mysql_info:
+#     login_user: shipping
+#     login_password: RoboShop@1
+#     login_host: mysql.lakshmireddy.site
+#     login_db: cities
+
+- name: install pymysql
+  ansible.builtin.pip:
+    name: "{{ item  }}"
+    executable: pip3.3
+  loop:
+  - PYMySQL
+  - cryptography
+
+# here we use import beacuse evarytime we don't want run entire code 
+- name: import data
+  tags:
+  - import
+  community.mysql.mysql_db:
+    login_user: root
     login_password: RoboShop@1
+    name: all
     login_host: mysql.lakshmireddy.site
+    state: import 
+    target: "{ item }"
+  loop:
+  - /app/db/schema
+  - /app/db/app-user
+  - /app/db/master-data
+- name: restart shipping
+  ansible.builtin.service:
+  tags:
+  - import
+    name: shipping
+    state: restarted
