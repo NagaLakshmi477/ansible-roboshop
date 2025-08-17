@@ -38,9 +38,9 @@
       dest: /app
       remote_src: yes
 
-  # - name: install dependies
-  #   community.general.npm:
-  #     path: /app
+  - name: install dependies
+    community.general.npm:
+      path: /app
 
   # - name: copy catalogue service to system directory
   #   ansible.builtin.copy:
