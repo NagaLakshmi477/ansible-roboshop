@@ -49,7 +49,7 @@
 
   - name: reaload the catalogue service
     ansible.builtin.systemd_service:
-      daemon_reload: true 
+      daemon_reload: true
 
   - name: start and enable the catalogue component
     ansible.builtin.service:
