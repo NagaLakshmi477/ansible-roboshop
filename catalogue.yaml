@@ -72,7 +72,7 @@
   #     idempotent: yes
   #     login_host: mongodb.lakshmireddy.site
 
-  # - name: checks the products loaded or not if loaded nio need of above one
+  - name: checks the products loaded or not if loaded nio need of above one
     ansible.builtin.command: mongosh --host mongodb.lakshmireddy.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
     register: catalogue_output
 
