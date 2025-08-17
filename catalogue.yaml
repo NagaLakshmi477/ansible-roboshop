@@ -66,19 +66,19 @@
       name: mongodb-mongosh
       state: present
   
-  - name: load the products data
-    community.mongodb.mongodb_shard:
-      file: "/app/db/master-data.js" 
-      idempotent: yes
-      login_host: mongodb.lakshmireddy.site
+  # - name: load the products data
+  #   community.mongodb.mongodb_shard:
+  #     file: "/app/db/master-data.js" 
+  #     idempotent: yes
+  #     login_host: mongodb.lakshmireddy.site
 
-  # - name: checks the products loaded or not
-  #   ansible.builtin.command: mongosh --host mongodb.lakshmireddy.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
-  #   register: catalogue_output
+  # - name: checks the products loaded or not if loaded nio need of above one
+    ansible.builtin.command: mongosh --host mongodb.lakshmireddy.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+    register: catalogue_output
 
-  # - name: print catalogue output
-  #   ansible.builtin.debug:
-  #     msg: "{{ catalogue_output }}"
+  - name: print catalogue output
+    ansible.builtin.debug:
+      msg: "{{ catalogue_output }}"
   # # here we got stdout is -1 means catalogue is not created
 
   # - name: load products
