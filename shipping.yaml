@@ -29,35 +29,35 @@
       src: /tmp/shipping.zip
       dest: /app
       remote_src: yes
-- name: install maven dependecies
-  ansible.builtin.command: mvn clean package
-  args:
-    chdir: /app
+  - name: install maven dependecies
+    ansible.builtin.command: mvn clean package
+    args:
+      chdir: /app
 
-- name: rename the jar files
-  ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar 
-  args:
-    chdir: /app
+  - name: rename the jar files
+    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar 
+    args:
+      chdir: /app
 
-- name: copy shipping service
-  ansible.builtin.copy:
-    src: shipping.service
-    dest: /etc/systemd/system/shipping.service
+  - name: copy shipping service
+    ansible.builtin.copy:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
 
-- name: reaload the shipping service
-  ansible.builtin.systemd_service:
-    daemon_reload: true 
+  - name: reaload the shipping service
+    ansible.builtin.systemd_service:
+      daemon_reload: true 
 
-- name: start and enable the shipping component
-  ansible.builtin.service:
-      name: shipping
-      state: started
-      enable: yes
+  - name: start and enable the shipping component
+    ansible.builtin.service:
+        name: shipping
+        state: started
+        enable: yes
 
-- name: install mysql client
-  ansible.builtin.dnf:
-    name: mysql 
-    state: present
+  - name: install mysql client
+    ansible.builtin.dnf:
+      name: mysql 
+      state: present
 
 # check you can connect to mysql using app user or not
 # 
@@ -68,33 +68,33 @@
 #     login_host: mysql.lakshmireddy.site
 #     login_db: cities
 
-- name: install pymysql
-  ansible.builtin.pip:
-    name: "{{ item  }}"
-    executable: pip3.3
-  loop:
-  - PYMySQL
-  - cryptography
+  - name: install pymysql
+    ansible.builtin.pip:
+      name: "{{ item  }}"
+      executable: pip3.3
+    loop:
+    - PYMySQL
+    - cryptography
 
-# here we use import beacuse evarytime we don't want run entire code 
-- name: import data
-  tags:
-  - import
-  community.mysql.mysql_db:
-    login_user: root
-    login_password: RoboShop@1
-    name: all
-    login_host: mysql.lakshmireddy.site
-    state: import 
-    target: "{ item }"
-  loop:
-  - /app/db/schema
-  - /app/db/app-user
-  - /app/db/master-data
-- name: restart shipping
-  tags:
-  - import
-  ansible.builtin.service:
+  # here we use import beacuse evarytime we don't want run entire code 
+  - name: import data
+    tags:
+    - import
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: RoboShop@1
+      name: all
+      login_host: mysql.lakshmireddy.site
+      state: import 
+      target: "{ item }"
+    loop:
+    - /app/db/schema
+    - /app/db/app-user
+    - /app/db/master-data
+  - name: restart shipping
+    tags:
+    - import
+    ansible.builtin.service:
 
-    name: shipping
-    state: restarted
+      name: shipping
+      state: restarted
