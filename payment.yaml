@@ -11,12 +11,12 @@
     - gcc
     - python3-devel
 
-- name: create payment
+  - name: create payment
     ansible.builtin.user:
-      name: roboshop
-      shell: /sbin/nologin
-      system: true
-      home: /app
+        name: roboshop
+        shell: /sbin/nologin
+        system: true
+        home: /app
 
 
   - name: download the payment code
@@ -33,18 +33,18 @@
     ansible.builtin.pip:
       requirements: requirements.txt
       executable: pip3.9
-    args:
-      chdir: /app
+      args:
+        chdir: /app
   - name: copy the payment service file
     ansible.builtin.copy:
-      src: payment.service
-      dest: /etc/systemd/system/payment.service
+        src: payment.service
+        dest: /etc/systemd/system/payment.service
   - name: reload the cart service
     ansible.builtin.systemd_service:
-      daemon_reload: true
-    
+        daemon_reload: true
+      
   - name: start and enable the cart service
     ansible.builtin.service:
-      name: cart
-      state: started
-      become: yes
+        name: cart
+        state: started
+        become: yes
