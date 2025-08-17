@@ -32,10 +32,10 @@
   
   # this module thinks file exists on ansible control server, need to extract on remote server
   # here we are alraedy download the file on the remote server
-  # - name: extract the  catalogue files 
-  #   ansible.builtin.unarchive:
-  #     src: /tmp/catalogue.zip
-  #     dest: /app
+  - name: extract the  catalogue files 
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
   #     remote_src: yes
 
   # - name: install dependies
