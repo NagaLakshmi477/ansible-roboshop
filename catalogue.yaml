@@ -57,16 +57,20 @@
       state: started
       enabled: yes
 
-  # - name: copy mongodb repo
-  #   ansible.builtin.copy:
-  #     src: mongo.repo
-  #     dest: /etc/yum.repos.d/mongo.repo
+  - name: copy mongodb repo
+    ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+  - name: install mongodb client
+    ansible.builtin.dnf:
+      name: mongodb-mongosh
+      state: present
   
-  # # - name: load the products data
-  # #   community.mongodb.mongodb_shard:
-  # #     file: /app/db/master-data.js
-  # #     idempotent: yes
-  # #     login_host: mongodb.lakshmireddy.site
+  - name: load the products data
+    community.mongodb.mongodb_shell:
+      file: "/app/db/master-data.js"
+      idempotent: yes
+      login_host: mongodb.lakshmireddy.site
 
   # - name: checks the products loaded or not
   #   ansible.builtin.command: mongosh --host mongodb.lakshmireddy.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
