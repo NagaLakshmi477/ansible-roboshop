@@ -32,58 +32,58 @@
   
   # this module thinks file exists on ansible control server, need to extract on remote server
   # here we are alraedy download the file on the remote server
-  - name: extract the  catalogue files 
-    ansible.builtin.unarchive:
-      src: /tmp/catalogue.zip
-      dest: /app
-      remote_src: yes
+  # - name: extract the  catalogue files 
+  #   ansible.builtin.unarchive:
+  #     src: /tmp/catalogue.zip
+  #     dest: /app
+  #     remote_src: yes
 
-  - name: install dependies
-    community.general.npm:
-      path: /app
+  # - name: install dependies
+  #   community.general.npm:
+  #     path: /app
 
-  - name: copy catalogue service to system directory
-    ansible.builtin.copy:
-      src: catalogue.service
-      dest: /etc/systemd/system/catalogue.service
+  # - name: copy catalogue service to system directory
+  #   ansible.builtin.copy:
+  #     src: catalogue.service
+  #     dest: /etc/systemd/system/catalogue.service
 
-  - name: reaload the catalogue service
-    ansible.builtin.systemd_service:
-      daemon_reload: true 
+  # - name: reaload the catalogue service
+  #   ansible.builtin.systemd_service:
+  #     daemon_reload: true 
 
-  - name: start and enable the catalogue component
-    ansible.builtin.service:
-      name: catalogue
-      state: started
-      enable: yes
+  # - name: start and enable the catalogue component
+  #   ansible.builtin.service:
+  #     name: catalogue
+  #     state: started
+  #     enable: yes
 
-  - name: copy mongodb repo
-    ansible.builtin.copy:
-      src: mongo.repo
-      dest: /etc/yum.repos.d/mongo.repo
+  # - name: copy mongodb repo
+  #   ansible.builtin.copy:
+  #     src: mongo.repo
+  #     dest: /etc/yum.repos.d/mongo.repo
   
-  # - name: load the products data
-  #   community.mongodb.mongodb_shard:
-  #     file: /app/db/master-data.js
-  #     idempotent: yes
-  #     login_host: mongodb.lakshmireddy.site
+  # # - name: load the products data
+  # #   community.mongodb.mongodb_shard:
+  # #     file: /app/db/master-data.js
+  # #     idempotent: yes
+  # #     login_host: mongodb.lakshmireddy.site
 
-  - name: checks the products loaded or not
-    ansible.builtin.command: mongosh --host mongodb.lakshmireddy.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
-    register: catalogue_output
+  # - name: checks the products loaded or not
+  #   ansible.builtin.command: mongosh --host mongodb.lakshmireddy.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+  #   register: catalogue_output
 
-  - name: print catalogue output
-    ansible.builtin.debug:
-      msg: "{{ catalogue_output }}"
-  # here we got stdout is -1 means catalogue is not created
+  # - name: print catalogue output
+  #   ansible.builtin.debug:
+  #     msg: "{{ catalogue_output }}"
+  # # here we got stdout is -1 means catalogue is not created
 
-  - name: load products
-    ansible.builtin.shell: mongosh --host mongodb.lakshmireddy.site </app/db/master-data.js 
-    #when: catalogue_output.stdout < 0
-    when: catalogue_output.stdout | int < 0
-  # it is taking like a string so we need to convert string to int
-  # now we will 1
+  # - name: load products
+  #   ansible.builtin.shell: mongosh --host mongodb.lakshmireddy.site </app/db/master-data.js 
+  #   #when: catalogue_output.stdout < 0
+  #   when: catalogue_output.stdout | int < 0
+  # # it is taking like a string so we need to convert string to int
+  # # now we will 1
 
-  # now check with reamining commans in bash
+  # # now check with reamining commans in bash
 
   
