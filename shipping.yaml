@@ -4,8 +4,23 @@
   tasks:
   - name: install maven
     ansible.builtin.dnf:
-      name: maven 
-      state: present
+      name: "{{ item }}"
+      state: installed
+    loop:
+    - maven
+    - mysql
+  - name: install PyMySQL and cryptography 
+    ansible.builtin.pip:
+      name: "{{ item  }}"
+      executable: pip3.9
+    loop:
+    - PYMySQL
+    - cryptography
+
+  - name: create app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
 
   - name: create roboshop user
     ansible.builtin.user:
@@ -14,10 +29,7 @@
       system: true
       home: /app
 
-  - name: create app directory
-    ansible.builtin.file:
-      path: /app
-      state: directory
+
 
   - name: download the shipping code
     ansible.builtin.get_url:
@@ -29,6 +41,7 @@
       src: /tmp/shipping.zip
       dest: /app
       remote_src: yes
+
   - name: install maven dependecies
     ansible.builtin.command: mvn clean package
     args:
@@ -54,10 +67,10 @@
         state: started
         enable: yes
 
-  - name: install mysql client
-    ansible.builtin.dnf:
-      name: mysql 
-      state: present
+  # - name: install mysql client
+  #   ansible.builtin.dnf:
+  #     name: mysql 
+  #     state: present
 
 # check you can connect to mysql using app user or not
 # 
@@ -68,13 +81,7 @@
 #     login_host: mysql.lakshmireddy.site
 #     login_db: cities
 
-  - name: install pymysql
-    ansible.builtin.pip:
-      name: "{{ item  }}"
-      executable: pip3.3
-    loop:
-    - PYMySQL
-    - cryptography
+
 
   # here we use import beacuse evarytime we don't want run entire code 
   - name: import data
@@ -97,4 +104,4 @@
     ansible.builtin.service:
       name: shipping
       state: restarted
-      enabled: yes
+      
