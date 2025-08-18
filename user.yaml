@@ -37,8 +37,8 @@
       remote_src: yes
 
   - name: install dependies
-    ansible.builtin.npm:
-      path: npm
+    community.general.npm:
+      path: /app
 
   - name: copy user service to system directory
     ansible.builtin.copy:
