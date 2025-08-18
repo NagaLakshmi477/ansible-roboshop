@@ -81,10 +81,10 @@
       msg: "{{ catalogue_output }}"
   # # here we got stdout is -1 means catalogue is not created
 
-  # - name: load products
-  #   ansible.builtin.shell: mongosh --host mongodb.lakshmireddy.site </app/db/master-data.js 
-  #   #when: catalogue_output.stdout < 0
-  #   when: catalogue_output.stdout | int < 0
+  - name: load products
+    ansible.builtin.shell: mongosh --host mongodb.lakshmireddy.site </app/db/master-data.js 
+    #when: catalogue_output.stdout < 0
+    when: catalogue_output.stdout | int < 0
   # # it is taking like a string so we need to convert string to int
   # # now we will 1
 
