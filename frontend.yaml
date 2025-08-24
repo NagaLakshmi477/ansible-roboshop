@@ -33,12 +33,13 @@
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
       dest: /tmp/frontend.zip
-      remote_src: yes
+      
 
   - name: unzip frontend code
     ansible.builtin.unarchive:
       src: /tmp/frontend.zip
       dest: /usr/share/nginx/html/
+      remote_src: yes
 
   - name: remove default nginx content
     ansible.builtin.file:

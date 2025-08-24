@@ -7,12 +7,6 @@
 
   - name: enable nodejs:20 version
     ansible.builtin.command: dnf module enable nodejs:20 -y
-
-  - name: install nodejs
-    ansible.builtin.dnf:
-      name: nodejs 
-      state: present
-  
   - name: create cart
     ansible.builtin.user:
       name: roboshop
@@ -20,10 +14,10 @@
       system: true
       home: /app
 
-  - name: create app directory
-    ansible.builtin.file:
-      path: /app
-      state: directory
+  - name: install nodejs
+    ansible.builtin.dnf:
+      name: nodejs 
+      state: present
 
   - name: download the cart code
     ansible.builtin.get_url:

@@ -12,6 +12,10 @@
     ansible.builtin.dnf:
       name: nodejs
       state: present
+  - name: create app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
 
   - name: create roboshop user
     ansible.builtin.user:
@@ -20,10 +24,7 @@
       system: true
       home: /app
   
-  - name: create app directory
-    ansible.builtin.file:
-      path: /app
-      state: directory
+
       
   - name: download the catalogue code
     ansible.builtin.get_url:
@@ -61,6 +62,7 @@
     ansible.builtin.copy:
       src: mongo.repo
       dest: /etc/yum.repos.d/mongo.repo
+      
   - name: install mongodb client
     ansible.builtin.dnf:
       name: mongodb-mongosh
