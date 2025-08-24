@@ -28,6 +28,7 @@
     ansible.builtin.unarchive:
       src: /tmp/payment.zip
       dest: /app
+      remote_src: yes
 
   - name: install dependies
     ansible.builtin.pip:
