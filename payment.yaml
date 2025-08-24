@@ -32,10 +32,9 @@
 
   - name: install dependies
     ansible.builtin.pip:
-      requirements: requirements.txt
+      requirements: /app/requirements.txt
       executable: pip3.9
-      args:
-        chdir: /app
+      chdir: /app
   - name: copy the payment service file
     ansible.builtin.copy:
         src: payment.service
