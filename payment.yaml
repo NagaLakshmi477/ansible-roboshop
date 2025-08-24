@@ -1,5 +1,5 @@
 - name: configure python
-  hosts: python
+  hosts: payment
   become: yes
   tasks:
   - name: install python packages
