@@ -1,0 +1,20 @@
+- name: configuring rabbitmq database
+  hosts: rabbitmq
+  become: yes
+  tasks:
+  - name: copy the rabbitmq repo file
+    ansible.builtin.copy:
+      src: rabbitmq.repo
+      dest: /etc/yum.repos.d/rabbitmq.repo
+
+  - name: installing rabbitmq
+    ansible.builtin.dnf:
+      name: rabbitmq-server
+      state: present
+
+  - name: start and enable rabbitmq server
+    ansible.builtin.service:
+      name: rabbitmq-server
+      state: installed
+      enabled: yes
+  
