@@ -66,7 +66,7 @@
       state: present
 
   - name: check products loaded or not
-    ansible.builtin.command: mongosh --host 172.31.43.42 --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+    ansible.builtin.command: mongosh --host mongodb.nagalakshmi.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
     register: catalogue_output
 
   - name: print the catalogue output 
@@ -74,7 +74,7 @@
       msg: "{{ catalogue_output }}"
 
   - name: load the products
-    ansible.builtin.command: mongosh --host 172.31.43.42 < /app/db/master-data.js
+    ansible.builtin.command: mongosh --host mongodb.nagalakshmi.site < /app/db/master-data.js
     when: catalogue_output.stdout | int < 0
   
 
