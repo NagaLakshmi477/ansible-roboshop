@@ -18,3 +18,37 @@
         name: nginx
         state: started
         enabled: yes
+  - name: remove html directory
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: absent
+  
+  - name: create html directory
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: present
+  - name: download the frontend floder
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+      dest: /tmp/frontend.zip
+
+  - name: unzip the frontend floder
+    ansible.builtin.unarchive:
+      src: /tmp/frontend.zip
+      dest: /app
+      remote_src: true
+    
+  - name: remove default nginx conf
+    ansible.builtin.file:
+      path: /etc/nginx/nginx.conf
+      state: absent
+
+  - name: copy the conf file
+    ansible.builtin.copy:
+      src: nginx.conf
+      dest: /etc/nginx/nginx.conf
+  - name: restart frontend server
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+      enabled: yes
