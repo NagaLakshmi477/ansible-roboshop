@@ -6,6 +6,7 @@
     ansible.builtin.dnf:
       name: maven
       state: present
+
   - name: create roboshop user
     ansible.builtin.user:
       name: roboshop
@@ -23,28 +24,33 @@
       url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
       dest: /tmp/shipping.zip
   
+
+  
   - name: unzip the shipping floder
     ansible.builtin.unarchive:
       src: /tmp/shipping.zip
       dest: /app
-      remote_src: true
+      remote_src: yes
 
+  - name: install maven dependies
+    ansible.builtin.command: mvn clean package
+    args:
+      chdir: /app
 
-
-  - name: copy the shipping service files
-    ansible.builtin.copy:
-      src: shipping.service
-      dest: /etc/systemd/system/shipping.service
-  - name: reload the catalogue service
-    ansible.builtin.systemd_service:
-      daemon_reload: true
+  # - name: copy the shipping service files
+  #   ansible.builtin.copy:
+  #     src: shipping.service
+  #     dest: /etc/systemd/system/shipping.service
+  # - name: reload the catalogue service
+  #   ansible.builtin.systemd_service:
+  #     daemon_reload: true
       
-  - name: start and enable the service
-    ansible.builtin.service:
-      name: catalogue
-      state: started
-      enabled: yes 
-  - name: install mysql  client
-    ansible.builtin.dnf:
-      name: mysql
-      state: present
+  # - name: start and enable the service
+  #   ansible.builtin.service:
+  #     name: catalogue
+  #     state: started
+  #     enabled: yes 
+  # - name: install mysql  client
+  #   ansible.builtin.dnf:
+  #     name: mysql
+  #     state: present
