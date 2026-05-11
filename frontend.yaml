@@ -1,0 +1,20 @@
+- name: configure frontend 
+  hosts: frontend
+  become: yes
+  tasks:
+  - name: disable nodejs version
+    ansible.builtin.command: dnf module disable nodejs -y
+  
+  - name: enable nodejs version
+    ansible.builtin.command: dnf module enable nodejs:20 -y
+
+  - name: install nginx
+    ansible.builtin.dnf:
+      name: nginx
+      state: present
+  
+  - name: start and enable service
+    ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes

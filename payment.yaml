@@ -1,0 +1,39 @@
+- name: configure python component
+  hosts: payment
+  become: yes
+  tasks:
+  - name: install python 3
+    ansible.builtin.dnf:
+      name: python3 gcc python3-devel
+      state: present
+
+  - name: create roboshop user
+    ansible.builtin.user:
+      name: roboshop
+      shell: /sbin/nologin 
+      home: /app
+      system: true
+  - name: create app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+  - name: download the payment floder
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip 
+      dest: /tmp/payment.zip
+  - name: unzip the payment floder
+    ansible.builtin.unarchive:
+      src: /tmp/payment.zip
+      dest: /app
+  - name: install requirements text file 
+    ansible.builtin.pip:
+      requirements: requirements.txt
+
+  - name: reload the service
+    ansible.builtin.systemd_service:
+      daemon_reload:true
+  - name: start and enable payment
+    ansible.builtin.service:
+      name: payment
+      state: started
+      enabled: yes
