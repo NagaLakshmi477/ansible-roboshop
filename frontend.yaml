@@ -33,15 +33,6 @@
       url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
       dest: /tmp/frontend.zip
   
-  - name: create app directory
-    ansible.builtin.file:
-      name: /app
-      state: directory
-  - name: unzip the frontend floder
-    ansible.builtin.unarchive:
-      src: /tmp/frontend.zip
-      dest: /app
-      remote_src: true
     
   - name: remove default nginx conf
     ansible.builtin.file:
