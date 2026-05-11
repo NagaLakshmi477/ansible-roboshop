@@ -39,10 +39,12 @@
   - name: install dependencies
     community.general.npm:
       path: /app
+
   - name: copy service file 
     ansible.builtin.copy:
       src: cart.service
       dest: /etc/systemd/system/cart.service
+
   - name: reload the service
     ansible.builtin.systemd_service:
       daemon_reload: true
