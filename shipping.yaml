@@ -57,6 +57,11 @@
       name: shipping
       state: started
       enabled: yes 
+      # installing python dependies for mysql client
+  - name: install python pip
+    ansible.builtin.dnf:
+      name: python3-pip
+      state: present
 
   - name: install mysql  client
     ansible.builtin.dnf:
@@ -69,6 +74,3 @@
       login_password: RoboShop@1
       login_host: mysql.nagalakshmi.site
       login_db: cities
-  - name: install MySQL-python
-    ansible.builtin.pip:
-      name: MySQL-python
