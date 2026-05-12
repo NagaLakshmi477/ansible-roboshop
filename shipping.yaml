@@ -48,13 +48,13 @@
       dest: /etc/systemd/system/shipping.service
 
 
-  - name: reload the catalogue service
+  - name: reload the shipping service
     ansible.builtin.systemd_service:
       daemon_reload: true
       
   - name: start and enable the service
     ansible.builtin.service:
-      name: catalogue
+      name: shipping
       state: started
       enabled: yes 
 
