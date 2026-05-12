@@ -61,4 +61,12 @@
   - name: install mysql  client
     ansible.builtin.dnf:
       name: mysql
-      state: present 
+      state: installed
+
+  - name: connect mysql using app user
+    community.mysql.mysql_info:
+      login_user: shipping
+      login_password: RoboShop@1
+      login_host: mysql.nagalakshmi.site
+      login_db: cities
+      
