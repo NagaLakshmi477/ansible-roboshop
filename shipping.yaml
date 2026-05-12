@@ -69,19 +69,19 @@
       - cryptography
       - PyMySQL
 
-  - name: connect mysql using app user
-    community.mysql.mysql_info:
-      login_user: shipping
-      login_password: RoboShop@1
-      login_host: mysql.nagalakshmi.site
-      login_db: cities
+  # - name: connect mysql using app user
+  #   community.mysql.mysql_info:
+  #     login_user: shipping
+  #     login_password: RoboShop@1
+  #     login_host: mysql.nagalakshmi.site
+  #     login_db: cities
   - name: import the data
     community.mysql.mysql_db:
       login_user: root 
       login_password: RoboShop@1
       login_host: mysql.nagalakshmi.site
       state: import
-      target: /tmp/dump.sql
+      target: " {{ item }}"
       loop:
         - /app/db/schema.sql
         - /app/db/app-user.sql 
@@ -90,4 +90,4 @@
     ansible.builtin.service:
       name: shipping
       state: restarted
-      enabled: yes
+      
