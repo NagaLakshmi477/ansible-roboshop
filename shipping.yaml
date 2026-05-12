@@ -75,7 +75,11 @@
   #     login_password: RoboShop@1
   #     login_host: mysql.nagalakshmi.site
   #     login_db: cities
+
+  # no need to run everytime all tasks we can use tags 
   - name: import the data
+    tags:
+      - import
     community.mysql.mysql_db:
       login_user: root 
       login_password: RoboShop@1
