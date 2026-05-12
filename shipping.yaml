@@ -76,7 +76,10 @@
   #     login_host: mysql.nagalakshmi.site
   #     login_db: cities
 
-  # no need to run everytime all tasks we can use tags 
+  # no need to run everytime all tasks we can use tags
+  # we need to give -t import 
+  # $ ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 shipping.yaml -t import
+ 
   - name: import the data
     tags:
       - import
