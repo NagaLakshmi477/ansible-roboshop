@@ -37,20 +37,28 @@
     args:
       chdir: /app
 
-  # - name: copy the shipping service files
-  #   ansible.builtin.copy:
-  #     src: shipping.service
-  #     dest: /etc/systemd/system/shipping.service
-  # - name: reload the catalogue service
-  #   ansible.builtin.systemd_service:
-  #     daemon_reload: true
+  - name: rename the jar file 
+    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
+    args:
+      chdir: /app
+
+  - name: copy the shipping service files
+    ansible.builtin.copy:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
+
+
+  - name: reload the catalogue service
+    ansible.builtin.systemd_service:
+      daemon_reload: true
       
-  # - name: start and enable the service
-  #   ansible.builtin.service:
-  #     name: catalogue
-  #     state: started
-  #     enabled: yes 
-  # - name: install mysql  client
-  #   ansible.builtin.dnf:
-  #     name: mysql
-  #     state: present
+  - name: start and enable the service
+    ansible.builtin.service:
+      name: catalogue
+      state: started
+      enabled: yes 
+
+  - name: install mysql  client
+    ansible.builtin.dnf:
+      name: mysql
+      state: present 
