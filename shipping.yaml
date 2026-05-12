@@ -82,7 +82,7 @@
       login_host: mysql.nagalakshmi.site
       state: import
       target: "{{ item }}"
-      loop:
+    loop:
         - /app/db/schema.sql
         - /app/db/app-user.sql 
         - /app/db/master-data.sql
